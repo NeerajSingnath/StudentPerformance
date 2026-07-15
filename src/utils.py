@@ -1,4 +1,4 @@
-from scipy.optimize._trustregion_constr import report
+from sklearn.model_selection import GridSearchCV
 import os
 import sys
 import joblib
@@ -24,24 +24,40 @@ def evaluate_models(
     X_test: np.ndarray,
     y_test: np.ndarray,
     models: dict,
-) -> dict:
+    params: dict
+) -> tuple:
     try:
-        report ={}
+        report = {}
+        best_models = {}
         for i in range(len(list(models))):
             model = list(models.values())[i]
             model_name = list(models.keys())[i]
 
-            model.fit(X_train, y_train)
+            param = params[model_name]
 
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
+
+            gs = GridSearchCV(
+                estimator=model,
+                param_grid=param,
+                cv=5,
+                scoring='r2',
+                n_jobs=-1,
+                verbose=1
+            )
+            gs.fit(X_train, y_train)
+
+            best_model = gs.best_estimator_
+            best_models[model_name] = best_model
+
+            y_train_pred = best_model.predict(X_train)
+            y_test_pred = best_model.predict(X_test)
 
             train_model_score = r2_score(y_train, y_train_pred)
             test_model_score = r2_score(y_test, y_test_pred)
 
 
             report[model_name] = test_model_score
-        return report
+        return report, best_models
     except Exception as e:
         raise CustomException(e, sys)
 
