@@ -1,5 +1,3 @@
-from src.components.data_ingestion import DataIngestionConfig
-from src.components.data_ingestion import DataIngestion
 import sys
 import os
 from dataclasses import dataclass
@@ -118,16 +116,12 @@ class DataTransformation:
             raise CustomException(e, sys)
 
 
-# pyrefly: ignore [missing-module-attribute]
-# from src.components.data_transformation import DataTransformation
-# pyrefly: ignore [missing-module-attribute]
-# from src.components.data_transformation import DataTransformationConfig
-
 # if __name__ == "__main__":
+#     from src.components.data_ingestion import DataIngestionConfig, DataIngestion
 #     config = DataIngestionConfig()
 #     obj = DataIngestion(config)
 #     train_data, test_data = obj.initiate_data_ingestion()
-
+# 
 #     data_transformation = DataTransformation()
 #     train_arr, test_arr, preprocessor_obj_file_path = (
 #         data_transformation.initiate_data_transformation(train_data, test_data)

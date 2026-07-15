@@ -7,6 +7,10 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+from src.components.data_transformation import DataTransformation
+
 @dataclass
 class DataIngestionConfig:
     raw_data_path: str = os.path.join("artifact", "data.csv")
@@ -55,7 +59,16 @@ class DataIngestion:
             raise CustomException(e, sys)
 
 
-# if __name__ == "__main__":
-#     data_ingestion_config = DataIngestionConfig()
-#     data_ingestion = DataIngestion(data_ingestion_config)
-#     data_ingestion.initiate_data_ingestion()
+if __name__ == "__main__":
+    data_ingestion_config = DataIngestionConfig()
+    data_ingestion = DataIngestion(data_ingestion_config)
+    train_data, test_data = data_ingestion.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    train_arr, test_arr, preprocessor_path = (
+        data_transformation.initiate_data_transformation(train_data, test_data)
+    )
+
+    model_trainer = ModelTrainer()
+    r2 = model_trainer.initiate_model_training(train_arr, test_arr, preprocessor_path)
+    print("Model training R2 score:", r2)

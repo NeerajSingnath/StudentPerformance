@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 
 
-def save_object(file_path, obj):
+def save_object(file_path: str, obj: object) -> None:
     try:
         dir_path = os.path.dirname(file_path)
         os.makedirs(dir_path, exist_ok=True)
