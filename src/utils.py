@@ -1,3 +1,4 @@
+from typing import Any
 from sklearn.model_selection import GridSearchCV
 import os
 import sys
@@ -60,4 +61,12 @@ def evaluate_models(
         return report, best_models
     except Exception as e:
         raise CustomException(e, sys)
+
+
+def load_object(file_path: str) -> Any:
+    try:
+        return joblib.load(file_path)
+    except Exception as e:
+        raise CustomException(e, sys)
+
 
