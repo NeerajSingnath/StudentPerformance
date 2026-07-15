@@ -76,6 +76,7 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, sys)
 
+    # pyrefly: ignore [implicit-any-parameter]
     def initiate_data_transformation(self, train_path, test_path):
         try:
             logging.info("Data transformation started")
@@ -117,8 +118,10 @@ class DataTransformation:
             raise CustomException(e, sys)
 
 
-from src.components.data_transformation import DataTransformation
-from src.components.data_transformation import DataTransformationConfig
+# pyrefly: ignore [missing-module-attribute]
+# from src.components.data_transformation import DataTransformation
+# pyrefly: ignore [missing-module-attribute]
+# from src.components.data_transformation import DataTransformationConfig
 
 # if __name__ == "__main__":
 #     config = DataIngestionConfig()
